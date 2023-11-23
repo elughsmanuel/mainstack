@@ -7,6 +7,8 @@ dotenv.config();
 import http from "http";
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 
+import { errorHandler } from './errors/errorHandler';
+
 const app = express();
 const host = process.env.HOST || 'localhost';
 const port = Number(process.env.PORT || 8000);
@@ -50,6 +52,8 @@ const startServer = async () => {
             await mongoose.connect(db);
             console.log(`[DATABASE] - Database connection has been established successfully.`);
             console.log(`- - - - - - - - - -`);
+
+            app.use(errorHandler);
 
             try {
                 httpServer.listen(port, host, () => {
