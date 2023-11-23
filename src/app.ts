@@ -1,4 +1,5 @@
 import express from 'express';
+import mongoose from 'mongoose';
 
 import dotenv from 'dotenv';
 dotenv.config();
@@ -10,6 +11,10 @@ const app = express();
 const host = process.env.HOST || 'localhost';
 const port = Number(process.env.PORT || 8000);
 const httpServer = http.createServer(app);
+
+const db = String(process.env.DATABASE_CONNECTION).replace(
+    '<PASSWORD>', String(process.env.DATABASE_PASSWORD)
+);
 
 app.get('/', (req, res) => {
     return  res.status(StatusCodes.OK).json({
@@ -39,15 +44,26 @@ app.all('*', (req, res) => {
     });
 });
 
-const server = async () => {
-    try {
-        httpServer.listen(port, host, () => {
-            console.log(`🌟 🛠️  [SERVER] - Server is listening on http://${host}:${port}`);
-        });
-    }
-    catch(error) {
-        console.log(`🔥  [SERVER] - Error starting the server`, error);
-    }
+const startServer = async () => {
+    const initializeDatabaseConnection = async () => {
+        try {
+            await mongoose.connect(db);
+            console.log(`[DATABASE] - Database connection has been established successfully.`);
+            console.log(`- - - - - - - - - -`);
+
+            try {
+                httpServer.listen(port, host, () => {
+                    console.log(`🌟 🛠️  [SERVER] - Server is listening on http://${host}:${port}`);
+                });
+            } catch(error){
+                console.log(`[SERVER] - Failed to start. Encountered an error during startup.`, error);
+            }
+        } catch(error) {
+            console.log(`[DATABASE] - Server not started due to database connection error.`, error);
+        }
+    };
+        
+     initializeDatabaseConnection();
 };
 
-server(); 
+startServer();
