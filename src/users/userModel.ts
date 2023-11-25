@@ -23,6 +23,8 @@ export interface IUser extends Document {
     role: string;
     password: string;
     confirmPassword?: string;
+    resetPasswordToken?: string;
+    resetPasswordExpires: Date;
 }
 
 const userSchema = new Schema(

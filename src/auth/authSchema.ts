@@ -72,3 +72,21 @@ export const emailSchema = Joi.object({
         "string.email": VALID_EMAIL,
     }),
 });
+
+export const resetPasswordSchema = Joi.object({
+    email: Joi.string().trim().email().required().lowercase().messages({
+        "any.required": EMAIL_REQUIRED,
+        "string.empty": EMPTY_EMAIL,
+        "string.email": VALID_EMAIL,
+    }),
+    password: Joi.string().trim().min(8).required().messages({
+        "any.required": PASSWORD_REQUIRED,
+        "string.empty": EMPTY_PASSWORD,
+        "string.min": VALID_PASSWORD,
+    }),
+    confirmPassword: Joi.any().valid(Joi.ref("password")).required().messages({
+        "any.only": MATCHING_PASSWORD,
+        "any.required": CONFIRM_PASSWORD_REQUIRED, 
+        "string.empty": EMPTY_CONFIRM_PASSWORD,
+    }),
+});

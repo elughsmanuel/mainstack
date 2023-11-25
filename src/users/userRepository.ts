@@ -5,7 +5,7 @@ class UserRepository {
         return User.create(data);
     }
 
-    async findByEmail(email: string): Promise<IUser | null> {
+    async findByEmailAndPassword(email: string): Promise<IUser | null> {
         return User.findOne({ email }).select('+password').lean<IUser>().exec();
     }
 
@@ -20,13 +20,39 @@ class UserRepository {
         );
     }
 
-    async getUserByResetToken(token: string): Promise<IUser | null> {
-        return User.findOne({
-            resetPasswordToken: token,
-            resetPasswordExpires: { $gt: new Date() }, 
-        }).lean<IUser>().exec();
+    async findByEmail(email: string): Promise<IUser | null> {
+        const user = await User.findOne({ email });
+        return user;
     }
 
+    async findByResetToken(email: string, token: string): Promise<IUser | null> {
+        const user = await User.findOne({
+            email,
+            resetPasswordToken: token,
+            resetPasswordExpires: { $gt: new Date() },
+        });
+
+        return user;
+    }
+    
+    async updateUserPassword(userId: string, hashedPassword: string): Promise<void> {
+        await User.findByIdAndUpdate(
+            userId,
+            { password: hashedPassword },
+            { new: true }
+        );
+    }
+    
+    async clearUserResetToken(userId: string): Promise<void> {
+        await User.findByIdAndUpdate(
+            userId,
+            {
+                resetPasswordToken: null,
+                resetPasswordExpires: null,
+            },
+            { new: true }
+        );
+    }    
 }
 
 export default UserRepository;

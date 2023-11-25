@@ -21,7 +21,7 @@ class EmailService {
             from: process.env.MAIL_USER,
             to,
             subject: 'Password Reset',
-            text: `Click the following link to reset your password: ${baseUrl}/reset-password?token=${hashedToken}`,
+            text: `Click the following link to reset your password: ${baseUrl}/api/v1/auth/reset-password?token=${hashedToken}`,
         };
 
         await transporter.sendMail(mailOptions);

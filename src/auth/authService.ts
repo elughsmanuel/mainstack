@@ -6,10 +6,14 @@ import Unauthenticated from '../errors/Unauthenticated';
 import { 
     WRONG_CREDENTIALS, 
     USER_NOT_FOUND,
-    RESET_PASSWORD,
+    FORGOT_PASSWORD_REQUESTED,
+    MATCHING_PASSWORD,
+    PASSWORD_CHANGED,
+    INVALID_TOKEN,
 } from './constants';
 import BadRequest from '../errors/BadRequest';
 import EmailService from '../utils/mailer';
+import UnprocessableEntity from '../errors/UnprocessableEntity';
 
 
 class AuthService {
@@ -43,7 +47,7 @@ class AuthService {
     }
 
     async login(email: string, password: string) {
-        const user = await this.userRepository.findByEmail(email);
+        const user = await this.userRepository.findByEmailAndPassword(email);
 
         if (!user) {
             throw new Unauthenticated(WRONG_CREDENTIALS);
@@ -91,20 +95,49 @@ class AuthService {
 
         await this.userRepository.updateUserResetToken(user._id, resetToken, expirationTime);
 
-        const hashToken = (token: string) => {
-            const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
-            return hashedToken;
-        };
+        // const hashToken = (token: string) => {
+        //     const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+        //     return hashedToken;
+        // };
 
-        const hashedToken = hashToken(resetToken);
+        // const hashedToken = hashToken(resetToken);
 
-        await this.emailService.sendResetPasswordEmail(user.email, hashedToken);
+        await this.emailService.sendResetPasswordEmail(user.email, resetToken);
 
         return { 
             success: true, 
-            message: RESET_PASSWORD,
+            message: FORGOT_PASSWORD_REQUESTED,
         };
+    }
 
+    async resetPassword(email: string, token: string, password: string, confirmPassword: string) {
+        if (password !== confirmPassword) {
+            throw new UnprocessableEntity(MATCHING_PASSWORD);
+        }
+
+        const user = await this.userRepository.findByEmail(email);
+
+        if (!user) {
+            throw new BadRequest(USER_NOT_FOUND);
+        }
+
+        const validToken = await this.userRepository.findByResetToken(email, token);
+
+        if (!validToken) {
+            throw new BadRequest(INVALID_TOKEN);
+        }
+
+        const salt = await bcrypt.genSalt(Number(process.env.BCRYPT_SALT));
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        await this.userRepository.updateUserPassword(user._id, hashedPassword);
+    
+        await this.userRepository.clearUserResetToken(user._id);
+
+        return { 
+            success: true, 
+            message: PASSWORD_CHANGED,
+        };
     }
 }
 

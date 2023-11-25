@@ -28,6 +28,10 @@ export const WRONG_CREDENTIALS = "Incorrect email or password";
 export const VALIDATION_ERROR = "MongoServerError";
 export const VALIDATION_ERROR_CODE = 11000;
 
-export const USER_NOT_FOUND = "User not found"
+export const USER_NOT_FOUND = "User not found";
+export const INVALID_TOKEN ="Token has expired or invalid";
 
-export const RESET_PASSWORD = "Password reset email sent"
+export const FORGOT_PASSWORD_REQUESTED = 
+    "Password reset request successful! Check your email for further instructions."
+export const PASSWORD_CHANGED =
+    "Password changed successful! You can now log in with your new password.";

@@ -2,6 +2,8 @@ import { Request, Response, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import Joi from 'joi';
 import Unauthenticated from '../errors/Unauthenticated';
+import BadRequest from '../errors/BadRequest';
+import UnprocessableEntity from '../errors/UnprocessableEntity';
 import { 
     UNIQUE_EMAIL,
     UNIQUE_USERNAME,
@@ -17,6 +19,20 @@ export const errorMiddleware = (
     next: NextFunction,
 ) => {
     if (err instanceof Unauthenticated) {
+        return res.status(err.statusCode).json({
+            success: false,
+            data: err.message,
+        });
+    }
+
+    if (err instanceof BadRequest || err instanceof UnprocessableEntity) {
+        return res.status(err.statusCode).json({
+            success: false,
+            data: err.message,
+        });
+    }
+
+    if (err instanceof UnprocessableEntity) {
         return res.status(err.statusCode).json({
             success: false,
             data: err.message,

@@ -3,7 +3,8 @@ import { StatusCodes } from 'http-status-codes';
 import { 
     signUpSchema, 
     loginSchema, 
-    emailSchema 
+    emailSchema,
+    resetPasswordSchema,
 } from './authSchema';
 import AuthService from './authService';
 import UserRepository from '../users/userRepository';
@@ -52,6 +53,28 @@ export const forgotPassword = async (
         const schema = await emailSchema.validateAsync(req.body);
 
         const forgotPassword = await authService.forgotPassword(schema.email);
+
+        return res.status(StatusCodes.OK).json(forgotPassword);
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const resetPassword = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+) => {
+    try {
+        const { token } = req.query;
+        const schema = await resetPasswordSchema.validateAsync(req.body);
+
+        const forgotPassword = await authService.resetPassword(
+            String(schema.email),
+            String(token),
+            schema.password, 
+            schema.confirmPassword,
+        );
 
         return res.status(StatusCodes.OK).json(forgotPassword);
     } catch (error) {
