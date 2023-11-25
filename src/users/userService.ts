@@ -15,6 +15,15 @@ class UserService {
             data: users,
         }
     }
+
+    async getUserById(userId: string) {
+        const user = await this.userRepository.getUserById(userId);
+
+        return {
+            status: true,
+            data: user,
+        }
+    }
 }
 
 export default UserService;

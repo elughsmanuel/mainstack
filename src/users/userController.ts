@@ -19,3 +19,19 @@ export const getAllUsers = async (
         next(error);
     }
 };
+
+export const getUserById = async (
+    req: Request & {user?: any}, 
+    res: Response,
+    next: NextFunction,
+) => {
+    try {
+        const { userId } = req.params;
+
+        const user = await userService.getUserById(userId);
+
+        return res.status(StatusCodes.OK).json(user);
+    } catch (error) {
+        next(error);
+    }
+};
