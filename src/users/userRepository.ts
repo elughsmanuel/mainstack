@@ -62,6 +62,13 @@ class UserRepository {
 
     async getUserById(userId: string): Promise<IUser | null> {
         const user = await User.findById(userId);
+
+        return user;
+    }
+
+    async getMyProfile(userId: string): Promise<IUser | null> {
+        const user = await User.findById(userId);
+
         return user;
     }
 }

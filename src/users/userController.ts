@@ -35,3 +35,19 @@ export const getUserById = async (
         next(error);
     }
 };
+
+export const getMyProfile = async (
+    req: Request & {user?: any, userId?: string}, 
+    res: Response,
+    next: NextFunction,
+) => {
+    try {
+        const user = await userService.getMyProfile(
+            String(req.userId)
+        );
+
+        return res.status(StatusCodes.OK).json(user);
+    } catch (error) {
+        next(error);
+    }
+};

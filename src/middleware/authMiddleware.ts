@@ -10,7 +10,7 @@ import {
 const SECRET_KEY = String(process.env.JWT_SECRET);
 
 export const authenticate = (
-    req: Request, 
+    req: Request & { user?: any}, 
     res: Response, 
     next: NextFunction,
 ) => {
@@ -39,13 +39,14 @@ export const authenticate = (
         }
 
         (req as any).user = decodedUser;
+        (req as any).userId = decodedUser.userId;
 
         next();
     });
 };
 
 export const isAdmin = (
-    req: Request, 
+    req: Request& { user?: any}, 
     res: Response, 
     next: NextFunction,
 ) => {
