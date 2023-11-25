@@ -1,13 +1,12 @@
 import express from 'express';
 import mongoose from 'mongoose';
-
 import dotenv from 'dotenv';
 dotenv.config();
-
 import http from "http";
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
-
+import bodyParser from 'body-parser';
 import { errorHandler } from './errors/errorHandler';
+import authRouter from './auth/authRouter';
 
 const app = express();
 const host = process.env.HOST || 'localhost';
@@ -17,6 +16,8 @@ const httpServer = http.createServer(app);
 const db = String(process.env.DATABASE_CONNECTION).replace(
     '<PASSWORD>', String(process.env.DATABASE_PASSWORD)
 );
+
+app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
     return  res.status(StatusCodes.OK).json({
@@ -38,6 +39,8 @@ app.get('/api/v1', (req, res) => {
         data: `${ReasonPhrases.OK} : API - v1`,
     });
 });
+
+app.use('/api/v1/auth', authRouter);
 
 app.all('*', (req, res) => {
     return res.status(StatusCodes.NOT_FOUND).json({
