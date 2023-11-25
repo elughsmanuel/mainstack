@@ -1,14 +1,24 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
 import UserRepository from '../users/userRepository';
 import Unauthenticated from '../errors/Unauthenticated';
-import { WRONG_CREDENTIALS } from './constants';
+import { 
+    WRONG_CREDENTIALS, 
+    USER_NOT_FOUND,
+    RESET_PASSWORD,
+} from './constants';
+import BadRequest from '../errors/BadRequest';
+import EmailService from '../utils/mailer';
+
 
 class AuthService {
     private userRepository: UserRepository;
+    private emailService: EmailService;
 
     constructor(userRepository: UserRepository) {
         this.userRepository = userRepository;
+        this.emailService = new EmailService();
     }
 
     async signUp(data: any) {
@@ -61,6 +71,40 @@ class AuthService {
             data: user,
             accessToken,
         };
+    }
+
+    async forgotPassword(email: string) {
+        const user = await this.userRepository.findByEmail(email);
+
+        if (!user) {
+            throw new BadRequest(USER_NOT_FOUND);
+        }
+
+        const generateResetToken = () => {
+            const token = crypto.randomBytes(32).toString('hex');
+            return token;
+          };
+
+        const resetToken = generateResetToken();
+        const tokenExpiresIn = Number(process.env.RESET_PASSWORD_TOKEN_EXPIRES_IN);
+        const expirationTime = new Date(Date.now() + tokenExpiresIn * 60 * 1000);
+
+        await this.userRepository.updateUserResetToken(user._id, resetToken, expirationTime);
+
+        const hashToken = (token: string) => {
+            const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+            return hashedToken;
+        };
+
+        const hashedToken = hashToken(resetToken);
+
+        await this.emailService.sendResetPasswordEmail(user.email, hashedToken);
+
+        return { 
+            success: true, 
+            message: RESET_PASSWORD,
+        };
+
     }
 }
 

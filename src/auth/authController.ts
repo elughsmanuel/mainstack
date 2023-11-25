@@ -1,6 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { signUpSchema, loginSchema } from './authSchema';
+import { 
+    signUpSchema, 
+    loginSchema, 
+    emailSchema 
+} from './authSchema';
 import AuthService from './authService';
 import UserRepository from '../users/userRepository';
 
@@ -34,6 +38,22 @@ export const login = async (
         const login = await authService.login(schema.email, schema.password);
 
         return res.status(StatusCodes.OK).json(login);
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const forgotPassword = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+) => {
+    try {
+        const schema = await emailSchema.validateAsync(req.body);
+
+        const forgotPassword = await authService.forgotPassword(schema.email);
+
+        return res.status(StatusCodes.OK).json(forgotPassword);
     } catch (error) {
         next(error);
     }

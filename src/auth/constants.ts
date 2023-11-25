@@ -27,3 +27,7 @@ export const WRONG_CREDENTIALS = "Incorrect email or password";
 
 export const VALIDATION_ERROR = "MongoServerError";
 export const VALIDATION_ERROR_CODE = 11000;
+
+export const USER_NOT_FOUND = "User not found"
+
+export const RESET_PASSWORD = "Password reset email sent"

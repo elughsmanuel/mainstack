@@ -69,6 +69,12 @@ const userSchema = new Schema(
                 message: MATCHING_PASSWORD,
             },
         },
+        resetPasswordToken: {
+            type: String,
+        },
+        resetPasswordExpires: {
+            type: Date,
+        },
     },
     {
         timestamps: true,

@@ -64,3 +64,11 @@ export const loginSchema = Joi.object({
         "string.empty": EMPTY_PASSWORD,
     }),
 });
+
+export const emailSchema = Joi.object({
+    email: Joi.string().trim().email().required().lowercase().messages({
+        "any.required": EMAIL_REQUIRED,
+        "string.empty": EMPTY_EMAIL,
+        "string.email": VALID_EMAIL,
+    }),
+});
