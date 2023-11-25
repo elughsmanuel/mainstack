@@ -11,6 +11,6 @@ const authRouter = express.Router();
 authRouter.post('/sign-up', signUp);
 authRouter.post('/login', login);
 authRouter.post('/forgot-password', forgotPassword);
-authRouter.post('/reset-password', resetPassword);
+authRouter.patch('/reset-password', resetPassword);
 
 export default authRouter;
