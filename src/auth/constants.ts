@@ -35,3 +35,7 @@ export const FORGOT_PASSWORD_REQUESTED =
     "Password reset request successful! Check your email for further instructions."
 export const PASSWORD_CHANGED =
     "Password changed successful! You can now log in with your new password.";
+
+export const AUTH_TOKEN_REQUIRED = "Auth token is required for this route";
+export const AUTH_TOKEN_EXPIRED = "Auth token has expired, please login again";
+export const AUTH_TOKEN_PERMISSION = "You don't have permission to access this resource";

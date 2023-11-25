@@ -53,6 +53,12 @@ class UserRepository {
             { new: true }
         );
     }    
+
+    async getAllUsers(): Promise<IUser[]> {
+        const users = await User.find();
+        
+        return users;
+    }
 }
 
 export default UserRepository;

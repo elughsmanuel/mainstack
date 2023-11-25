@@ -7,6 +7,7 @@ import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import bodyParser from 'body-parser';
 import { errorMiddleware } from './middleware/errorMiddleware';
 import authRouter from './auth/authRouter';
+import userRouter from './users/userRouter';
 
 const app = express();
 const host = process.env.HOST || 'localhost';
@@ -41,6 +42,7 @@ app.get('/api/v1', (req, res) => {
 });
 
 app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/users', userRouter);
 
 app.all('*', (req, res) => {
     return res.status(StatusCodes.NOT_FOUND).json({

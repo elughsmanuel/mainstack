@@ -26,18 +26,18 @@ class AuthService {
     }
 
     async signUp(data: any) {
-        const createToken = (userId: string): string => {
+        const createToken = (userId: string, role: string): string => {
             const secret = String(process.env.JWT_SECRET);
             const expiresIn = process.env.JWT_EXPIRES_IN;
         
-            const token = jwt.sign({ userId }, secret, { expiresIn}); 
+            const token = jwt.sign({ userId, role }, secret, { expiresIn}); 
         
             return token;
         };
 
         const user = await this.userRepository.createUser(data);
         
-        const accessToken = createToken(user._id);
+        const accessToken = createToken(user._id, user.role);
 
         return { 
             success: true, 
@@ -59,16 +59,16 @@ class AuthService {
             throw new Unauthenticated(WRONG_CREDENTIALS);
         }
 
-        const generateToken = (userId: string): string => {
+        const generateToken = (userId: string, role: string): string => {
             const secret = String(process.env.JWT_SECRET);
             const expiresIn = process.env.JWT_EXPIRES_IN;
     
-            const token = jwt.sign({ userId }, secret, { expiresIn });
+            const token = jwt.sign({ userId, role }, secret, { expiresIn });
 
             return token;
         }
 
-        const accessToken = generateToken(user._id);
+        const accessToken = generateToken(user._id, user.role);
 
         return {
             success: true,
