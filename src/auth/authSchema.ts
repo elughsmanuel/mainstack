@@ -53,3 +53,14 @@ export const signUpSchema = Joi.object({
     }),
 });
 
+export const loginSchema = Joi.object({
+    email: Joi.string().trim().email().required().lowercase().messages({
+        "any.required": EMAIL_REQUIRED,
+        "string.empty": EMPTY_EMAIL,
+        "string.email": VALID_EMAIL,
+    }),
+    password: Joi.string().trim().required().messages({
+        "any.required": PASSWORD_REQUIRED,
+        "string.empty": EMPTY_PASSWORD,
+    }),
+});

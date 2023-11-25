@@ -14,8 +14,6 @@ export const EMPTY_ROLE = "Role cannot be empty";
 export const EMPTY_PASSWORD = "Your password must be at least 6 characters long";
 export const EMPTY_CONFIRM_PASSWORD = "Confirm password cannot be empty";
 
-export const VALIDATION_ERROR = "Validation error";
-
 export const UNIQUE_EMAIL = "Email address already exist";
 export const UNIQUE_USERNAME = "Username already exist";
 export const UNIQUE_CONSTRAINT = "Unique constraint violation";
@@ -24,3 +22,8 @@ export const VALID_EMAIL = "Please provide a valid email address";
 export const VALID_PASSWORD = "Your password must be at least 8 characters long";
 
 export const MATCHING_PASSWORD = "Passwords do not match";
+
+export const WRONG_CREDENTIALS = "Incorrect email or password";
+
+export const VALIDATION_ERROR = "MongoServerError";
+export const VALIDATION_ERROR_CODE = 11000;

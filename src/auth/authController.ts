@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { signUpSchema } from './authSchema';
-import { schemaErrorHandler } from '../errors/schemaErrorHandler';
+import { signUpSchema, loginSchema } from './authSchema';
 import AuthService from './authService';
 import UserRepository from '../users/userRepository';
 
@@ -14,21 +13,28 @@ export const signUp = async (
     next: NextFunction,
 ) => {
     try {
-    const schema = await signUpSchema.validateAsync(req.body);
+        const schema = await signUpSchema.validateAsync(req.body);
 
-    const signUp = await authService.signUp(schema);
+        const signUp = await authService.signUp(schema);
 
-    res.status(StatusCodes.OK).json(signUp);
+        return res.status(StatusCodes.OK).json(signUp);
     } catch (error) {
-        const errorMessage = schemaErrorHandler(error);
+        next(error);
+    }
+};
 
-        if (errorMessage) {
-            res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({
-                success: false,
-                data: errorMessage,
-            });
-        } else {
-            next(error);
-        }
+export const login = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+) => {
+    try {
+        const schema = await loginSchema.validateAsync(req.body);
+
+        const login = await authService.login(schema.email, schema.password);
+
+        return res.status(StatusCodes.OK).json(login);
+    } catch (error) {
+        next(error);
     }
 };

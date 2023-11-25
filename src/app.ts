@@ -5,7 +5,7 @@ dotenv.config();
 import http from "http";
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import bodyParser from 'body-parser';
-import { errorHandler } from './errors/errorHandler';
+import { errorMiddleware } from './middleware/errorMiddleware';
 import authRouter from './auth/authRouter';
 
 const app = express();
@@ -56,7 +56,7 @@ const startServer = async () => {
             console.log(`[DATABASE] - Database connection has been established successfully.`);
             console.log(`- - - - - - - - - -`);
 
-            app.use(errorHandler);
+            app.use(errorMiddleware);
 
             try {
                 httpServer.listen(port, host, () => {
