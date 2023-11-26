@@ -46,3 +46,6 @@ export const VALID_NEW_PASSWORD = "Your new password must be at least 8 characte
 
 export const INCORRECT_PASSWORD = "Incorrect password";
 export const SAME_PASSWORD = "Current password cannot be the same as new password";
+
+export const USER_DELETED = 
+    "Your account has been successfully deleted. We're sorry to see you go."

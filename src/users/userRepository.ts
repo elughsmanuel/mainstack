@@ -92,6 +92,12 @@ class UserRepository {
     
         return user?.password || null;
     }
+
+    async findByIdAndDelete(userId: string): Promise<IUser | null> {
+        const user = await User.findByIdAndDelete(userId);
+
+        return user;
+    }
 }
 
 export default UserRepository;

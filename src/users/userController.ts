@@ -95,3 +95,19 @@ export const updateMyPassword = async (
         next(error);
     }
 };
+
+export const deleteMe = async (
+    req: Request & {user?: any, userId?: string}, 
+    res: Response,
+    next: NextFunction,
+) => {
+    try {
+        const user = await userService.deleteMe(
+            String(req.userId)
+        );
+
+        return res.status(StatusCodes.OK).json(user);
+    } catch (error) {
+        next(error);
+    }
+};

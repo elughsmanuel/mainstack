@@ -8,6 +8,7 @@ import {
     INCORRECT_PASSWORD,
     MATCHING_PASSWORD,
     SAME_PASSWORD,
+    USER_DELETED,
 } from '../auth/constants';
 
 class UserService {
@@ -98,6 +99,21 @@ class UserService {
         return {
             status: true,
             data: PASSWORD_CHANGED,
+        }
+    }
+
+    async deleteMe(userId: string) {
+        const user = await this.userRepository.getUserById(userId);
+
+        if(!user) {
+            throw new BadRequest(USER_NOT_FOUND);
+        }
+
+        await this.userRepository.findByIdAndDelete(userId);
+
+        return {
+            status: true,
+            data: USER_DELETED,
         }
     }
 }
