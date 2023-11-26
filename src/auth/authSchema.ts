@@ -17,6 +17,9 @@ import {
     EMPTY_PASSWORD,
     EMPTY_USERNAME,
     EMPTY_ROLE,
+    PASSWORD_NEW_REQUIRED,
+    EMPTY_NEW_PASSWORD,
+    VALID_NEW_PASSWORD,
 } from "./constants";
 
 export const signUpSchema = Joi.object({
@@ -98,4 +101,22 @@ export const updateUserSchema = Joi.object({
         "string.email": "Please provide a valid email address",
     }),
     username: Joi.string().trim(),
+});
+
+export const updatePasswordSchema = Joi.object({
+    password: Joi.string().trim().min(8).required().messages({
+        "any.required": PASSWORD_REQUIRED,
+        "string.empty": EMPTY_PASSWORD,
+        "string.min": VALID_PASSWORD,
+    }),
+    newPassword: Joi.string().trim().min(8).required().messages({
+        "any.required": PASSWORD_NEW_REQUIRED,
+        "string.empty": EMPTY_NEW_PASSWORD,
+        "string.min": VALID_NEW_PASSWORD,
+    }),
+    confirmPassword: Joi.any().valid(Joi.ref("newPassword")).required().messages({
+        "any.only": MATCHING_PASSWORD,
+        "any.required": CONFIRM_PASSWORD_REQUIRED, 
+        "string.empty": EMPTY_CONFIRM_PASSWORD,
+    }),
 });

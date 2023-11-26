@@ -86,6 +86,12 @@ class UserRepository {
 
         return updatedUser;
     }
+
+    async findPasswordByUserId(userId: string): Promise<string | null> {
+        const user = await User.findById(userId).select('+password').lean<IUser>().exec();
+    
+        return user?.password || null;
+    }
 }
 
 export default UserRepository;

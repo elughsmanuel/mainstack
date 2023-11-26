@@ -1,6 +1,14 @@
+import bcrypt from 'bcryptjs';
 import UserRepository from '../users/userRepository';
 import BadRequest from '../errors/BadRequest';
-import { USER_NOT_FOUND } from '../auth/constants';
+import UnprocessableEntity from '../errors/UnprocessableEntity';
+import { 
+    USER_NOT_FOUND,
+    PASSWORD_CHANGED,
+    INCORRECT_PASSWORD,
+    MATCHING_PASSWORD,
+    SAME_PASSWORD,
+} from '../auth/constants';
 
 class UserService {
     private userRepository: UserRepository;
@@ -52,6 +60,44 @@ class UserService {
         return {
             status: true,
             data: updatedUser,
+        }
+    }
+
+    async updateMyPassword(userId: string, password: string, newPassword: string, confirmPassword: string) {
+        const user = await this.userRepository.getUserById(userId);
+
+        if(!user) {
+            throw new BadRequest(USER_NOT_FOUND);
+        }
+
+        const storedPassword = await this.userRepository.findPasswordByUserId(userId);
+
+        if (storedPassword === null) {
+            throw new BadRequest(INCORRECT_PASSWORD);
+        }
+
+        const isPasswordValid = await bcrypt.compare(password, storedPassword);
+    
+        if (!isPasswordValid) {
+            throw new BadRequest(INCORRECT_PASSWORD);
+        }
+
+        if (newPassword !== confirmPassword) {
+            throw new UnprocessableEntity(MATCHING_PASSWORD);
+        }
+
+        if(password === newPassword) {
+            throw new UnprocessableEntity(SAME_PASSWORD);
+        }
+
+        const salt = await bcrypt.genSalt(Number(process.env.BCRYPT_SALT));
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+        await this.userRepository.updateUserPassword(user._id, hashedPassword);
+
+        return {
+            status: true,
+            data: PASSWORD_CHANGED,
         }
     }
 }

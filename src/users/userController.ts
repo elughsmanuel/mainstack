@@ -2,7 +2,10 @@ import { Request, Response, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import UserService from './userService';
 import UserRepository from '../users/userRepository';
-import { updateUserSchema } from '../auth/authSchema';
+import { 
+    updateUserSchema,
+    updatePasswordSchema,
+ } from '../auth/authSchema';
 
 const userRepository = new UserRepository();
 const userService = new UserService(userRepository);
@@ -64,6 +67,27 @@ export const updateMyProfile = async (
         const user = await userService.updateMyProfile(
             String(req.userId),
             schema,
+        );
+
+        return res.status(StatusCodes.OK).json(user);
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const updateMyPassword = async (
+    req: Request & {user?: any, userId?: string}, 
+    res: Response,
+    next: NextFunction,
+) => {
+    try {
+        const schema = await updatePasswordSchema.validateAsync(req.body);
+
+        const user = await userService.updateMyPassword(
+            String(req.userId),
+            schema.password,
+            schema.newPassword,
+            schema.confirmPassword,
         );
 
         return res.status(StatusCodes.OK).json(user);
