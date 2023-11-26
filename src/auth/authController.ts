@@ -21,7 +21,7 @@ export const signUp = async (
     try {
         const schema = await signUpSchema.validateAsync(req.body);
 
-        const signUp = await authService.signUp(schema);
+        const signUp = await authService.signUp(schema, res);
 
         return res.status(StatusCodes.OK).json(signUp);
     } catch (error) {
@@ -37,7 +37,7 @@ export const login = async (
     try {
         const schema = await loginSchema.validateAsync(req.body);
 
-        const login = await authService.login(schema.email, schema.password);
+        const login = await authService.login(schema.email, schema.password, res);
 
         return res.status(StatusCodes.OK).json(login);
     } catch (error) {
@@ -94,7 +94,7 @@ export const superAdmin = async (
             role: SUPER_ADMIN,
         });
 
-        const superAdmin = await authService.superAdmin(schema);
+        const superAdmin = await authService.superAdmin(schema, res);
 
         return res.status(StatusCodes.OK).json(superAdmin);
     } catch (error) {

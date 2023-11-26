@@ -1,3 +1,4 @@
+import { Response } from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
@@ -14,6 +15,10 @@ import {
 import BadRequest from '../errors/BadRequest';
 import EmailService from '../utils/mailer';
 import UnprocessableEntity from '../errors/UnprocessableEntity';
+import { 
+    createToken,
+    generateToken,
+} from './authUtil';
 
 
 class AuthService {
@@ -25,19 +30,10 @@ class AuthService {
         this.emailService = new EmailService();
     }
 
-    async signUp(data: any) {
-        const createToken = (userId: string, role: string): string => {
-            const secret = String(process.env.JWT_SECRET);
-            const expiresIn = process.env.JWT_EXPIRES_IN;
-        
-            const token = jwt.sign({ userId, role }, secret, { expiresIn}); 
-        
-            return token;
-        };
-
+    async signUp(data: any, res: Response) {
         const user = await this.userRepository.createUser(data);
         
-        const accessToken = createToken(user._id, user.role);
+        const accessToken = createToken(res, user._id, user.role);
 
         return { 
             success: true, 
@@ -46,7 +42,7 @@ class AuthService {
         }
     }
 
-    async login(email: string, password: string) {
+    async login(email: string, password: string, res: Response) {
         const user = await this.userRepository.findByEmailAndPassword(email);
 
         if (!user) {
@@ -59,16 +55,7 @@ class AuthService {
             throw new Unauthenticated(WRONG_CREDENTIALS);
         }
 
-        const generateToken = (userId: string, role: string): string => {
-            const secret = String(process.env.JWT_SECRET);
-            const expiresIn = process.env.JWT_EXPIRES_IN;
-    
-            const token = jwt.sign({ userId, role }, secret, { expiresIn });
-
-            return token;
-        }
-
-        const accessToken = generateToken(user._id, user.role);
+        const accessToken = generateToken(res, user._id, user.role);
 
         return {
             success: true,
@@ -140,19 +127,10 @@ class AuthService {
         };
     }
 
-    async superAdmin(data: any) {
-        const createToken = (userId: string, role: string): string => {
-            const secret = String(process.env.JWT_SECRET);
-            const expiresIn = process.env.JWT_EXPIRES_IN;
-        
-            const token = jwt.sign({ userId, role }, secret, { expiresIn}); 
-        
-            return token;
-        };
-
+    async superAdmin(data: any, res: Response) {
         const user = await this.userRepository.createSuperAdmin(data);
         
-        const accessToken = createToken(user._id, user.role);
+        const accessToken = createToken(res, user._id, user.role);
 
         return { 
             success: true, 
