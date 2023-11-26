@@ -8,6 +8,7 @@ import {
     updateMyPassword,
     deleteMe,
     updateUser,
+    deleteUser,
 } from './userController';
 
 const userRouter = express.Router();
@@ -19,5 +20,6 @@ userRouter.patch('/update-profile/:userId', authenticate, updateMyProfile);
 userRouter.patch('/update-password/:userId', authenticate, updateMyPassword);
 userRouter.delete('/delete-me/:userId', authenticate, deleteMe);
 userRouter.patch('/update-user/:userId', authenticate, isAdmin, updateUser);
+userRouter.delete('/delete-user/:userId', authenticate, isAdmin, deleteUser);
 
 export default userRouter;

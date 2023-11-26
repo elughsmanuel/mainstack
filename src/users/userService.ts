@@ -131,6 +131,21 @@ class UserService {
             data: updatedUser,
         }
     }
+
+    async deleteUser(userId: string) {
+        const user = await this.userRepository.getUserById(userId);
+
+        if(!user) {
+            throw new BadRequest(USER_NOT_FOUND);
+        }
+
+        await this.userRepository.findByIdAndDelete(userId);
+
+        return {
+            status: true,
+            data: USER_DELETED,
+        }
+    }
 }
 
 export default UserService;

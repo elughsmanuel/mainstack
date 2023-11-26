@@ -132,3 +132,21 @@ export const updateUser = async (
         next(error);
     }
 };
+
+export const deleteUser = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+) => {
+    try {
+        const { userId } = req.params;
+
+        const user = await userService.deleteUser(
+            userId, 
+        );
+
+        return res.status(StatusCodes.OK).json(user);
+    } catch (error) {
+        next(error);
+    }
+};

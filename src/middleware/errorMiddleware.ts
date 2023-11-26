@@ -67,6 +67,17 @@ export const errorMiddleware = (
         }
     }
 
+    if (err.name === 'CastError' && err.kind === 'ObjectId') {
+        const match = err.stack.match(/at path "_id" for model "(.*?)"/);
+        const modelName = match ? match[1] : 'unknown';
+
+        return res.status(StatusCodes.BAD_REQUEST).json({
+            success: false,
+            data: `Invalid ${modelName} ID`,
+        });
+    }
+
+
     if (process.env.NODE_ENV === 'development') {
         console.log(err.message);
         console.log(err.stack);
