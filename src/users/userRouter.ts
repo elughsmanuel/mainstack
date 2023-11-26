@@ -1,5 +1,9 @@
 import express from 'express';
-import { authenticate, isAdmin  } from '../middleware/authMiddleware';
+import { 
+    authenticate, 
+    isAdmin, 
+    isSuperAdmin,
+} from '../middleware/authMiddleware';
 import { 
     getAllUsers,
     getUserById,
@@ -20,6 +24,6 @@ userRouter.patch('/update-profile/:userId', authenticate, updateMyProfile);
 userRouter.patch('/update-password/:userId', authenticate, updateMyPassword);
 userRouter.delete('/delete-me/:userId', authenticate, deleteMe);
 userRouter.patch('/update-user/:userId', authenticate, isAdmin, updateUser);
-userRouter.delete('/delete-user/:userId', authenticate, isAdmin, deleteUser);
+userRouter.delete('/delete-user/:userId', authenticate, isSuperAdmin, deleteUser);
 
 export default userRouter;

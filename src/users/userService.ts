@@ -8,6 +8,7 @@ import {
     INCORRECT_PASSWORD,
     MATCHING_PASSWORD,
     SAME_PASSWORD,
+    YOUR_ACCOUNT_DELETED,
     USER_DELETED,
 } from '../auth/constants';
 
@@ -113,7 +114,7 @@ class UserService {
 
         return {
             status: true,
-            data: USER_DELETED,
+            data: YOUR_ACCOUNT_DELETED,
         }
     }
 
