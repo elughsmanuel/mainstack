@@ -116,6 +116,21 @@ class UserService {
             data: USER_DELETED,
         }
     }
+
+    async updateUser(userId: string, data: any) {
+        const user = await this.userRepository.getUserById(userId);
+
+        if(!user) {
+            throw new BadRequest(USER_NOT_FOUND);
+        }
+
+        const updatedUser = await this.userRepository.updateUser(userId, data);
+
+        return {
+            status: true,
+            data: updatedUser,
+        }
+    }
 }
 
 export default UserService;

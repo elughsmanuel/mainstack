@@ -11,7 +11,7 @@ const userRepository = new UserRepository();
 const userService = new UserService(userRepository);
 
 export const getAllUsers = async (
-    req: Request & {user?: any}, 
+    req: Request, 
     res: Response,
     next: NextFunction,
 ) => {
@@ -25,7 +25,7 @@ export const getAllUsers = async (
 };
 
 export const getUserById = async (
-    req: Request & {user?: any}, 
+    req: Request, 
     res: Response,
     next: NextFunction,
 ) => {
@@ -41,7 +41,7 @@ export const getUserById = async (
 };
 
 export const getMyProfile = async (
-    req: Request & {user?: any, userId?: string}, 
+    req: Request & {userId?: string}, 
     res: Response,
     next: NextFunction,
 ) => {
@@ -57,7 +57,7 @@ export const getMyProfile = async (
 };
 
 export const updateMyProfile = async (
-    req: Request & {user?: any, userId?: string}, 
+    req: Request & {userId?: string}, 
     res: Response,
     next: NextFunction,
 ) => {
@@ -76,7 +76,7 @@ export const updateMyProfile = async (
 };
 
 export const updateMyPassword = async (
-    req: Request & {user?: any, userId?: string}, 
+    req: Request & {userId?: string}, 
     res: Response,
     next: NextFunction,
 ) => {
@@ -97,13 +97,34 @@ export const updateMyPassword = async (
 };
 
 export const deleteMe = async (
-    req: Request & {user?: any, userId?: string}, 
+    req: Request & {userId?: string}, 
     res: Response,
     next: NextFunction,
 ) => {
     try {
         const user = await userService.deleteMe(
             String(req.userId)
+        );
+
+        return res.status(StatusCodes.OK).json(user);
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const updateUser = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+) => {
+    try {
+        const { userId } = req.params;
+
+        const schema = await updateUserSchema.validateAsync(req.body);
+
+        const user = await userService.updateUser(
+            userId, 
+            schema,
         );
 
         return res.status(StatusCodes.OK).json(user);

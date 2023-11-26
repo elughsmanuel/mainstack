@@ -98,6 +98,17 @@ class UserRepository {
 
         return user;
     }
+
+    async updateUser(userId: string, data: any): Promise<IUser | null> {
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            { $set: data },
+            { new: true },
+        );
+        console.log(updatedUser);
+
+        return updatedUser;
+    }
 }
 
 export default UserRepository;
