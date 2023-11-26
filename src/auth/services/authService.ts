@@ -2,8 +2,8 @@ import { Response } from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
-import UserRepository from '../users/userRepository';
-import Unauthenticated from '../errors/Unauthenticated';
+import UserRepository from '../../user/repositories/userRepository';
+import Unauthenticated from '../../errors/Unauthenticated';
 import { 
     WRONG_CREDENTIALS, 
     USER_NOT_FOUND,
@@ -11,14 +11,14 @@ import {
     MATCHING_PASSWORD,
     PASSWORD_CHANGED,
     INVALID_TOKEN,
-} from './constants';
-import BadRequest from '../errors/BadRequest';
-import EmailService from '../utils/mailer';
-import UnprocessableEntity from '../errors/UnprocessableEntity';
+} from '../utils/constants';
+import BadRequest from '../../errors/BadRequest';
+import EmailService from '../../utils/mailer';
+import UnprocessableEntity from '../../errors/UnprocessableEntity';
 import { 
     createToken,
     generateToken,
-} from './authUtil';
+} from '../utils/token';
 
 
 class AuthService {

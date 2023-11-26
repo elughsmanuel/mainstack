@@ -18,7 +18,7 @@ import {
     PASSWORD_NEW_REQUIRED,
     EMPTY_NEW_PASSWORD,
     VALID_NEW_PASSWORD,
-} from "./constants";
+} from "../utils/constants";
 
 export const signUpSchema = Joi.object({
     firstName: Joi.string().trim().required().messages({

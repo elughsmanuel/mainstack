@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
-import UserRepository from '../users/userRepository';
-import BadRequest from '../errors/BadRequest';
-import UnprocessableEntity from '../errors/UnprocessableEntity';
+import UserRepository from '../repositories/userRepository';
+import BadRequest from '../../errors/BadRequest';
+import UnprocessableEntity from '../../errors/UnprocessableEntity';
 import { 
     USER_NOT_FOUND,
     PASSWORD_CHANGED,
@@ -10,7 +10,7 @@ import {
     SAME_PASSWORD,
     YOUR_ACCOUNT_DELETED,
     USER_DELETED,
-} from '../auth/constants';
+} from '../../auth/utils/constants';
 
 class UserService {
     private userRepository: UserRepository;

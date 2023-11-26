@@ -6,8 +6,8 @@ import http from "http";
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import bodyParser from 'body-parser';
 import { errorMiddleware } from './middleware/errorMiddleware';
-import authRouter from './auth/authRouter';
-import userRouter from './users/userRouter';
+import authRouter from './auth/routers/authRouter';
+import userRouter from './user/routers/userRouter';
 
 const app = express();
 const host = process.env.HOST || 'localhost';

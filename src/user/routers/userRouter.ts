@@ -3,7 +3,7 @@ import {
     authenticate, 
     isAdmin, 
     isSuperAdmin,
-} from '../middleware/authMiddleware';
+} from '../../middleware/authMiddleware';
 import { 
     getAllUsers,
     getUserById,
@@ -13,7 +13,7 @@ import {
     deleteMe,
     updateUser,
     deleteUser,
-} from './userController';
+} from '../controllers/userController';
 
 const userRouter = express.Router();
 

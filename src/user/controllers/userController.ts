@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import UserService from './userService';
-import UserRepository from '../users/userRepository';
+import UserService from '../services/userService';
+import UserRepository from '../repositories/userRepository';
 import { 
     updateUserSchema,
     updatePasswordSchema,
- } from '../auth/authSchema';
+ } from '../../auth/validators/authSchema';
 
 const userRepository = new UserRepository();
 const userService = new UserService(userRepository);

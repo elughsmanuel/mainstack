@@ -12,7 +12,7 @@ import {
     VALID_PASSWORD,
     MATCHING_PASSWORD,
 
- } from '../auth/constants';
+ } from '../../auth/utils/constants';
 
 export interface IUser extends Document {
     firstName: string;

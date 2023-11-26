@@ -5,10 +5,10 @@ import {
     loginSchema, 
     emailSchema,
     resetPasswordSchema,
-} from './authSchema';
-import AuthService from './authService';
-import UserRepository from '../users/userRepository';
-import { SUPER_ADMIN } from './constants';
+} from '../validators/authSchema';
+import AuthService from '../services/authService';
+import UserRepository from '../../user/repositories/userRepository';
+import { SUPER_ADMIN } from '../utils/constants';
 
 const userRepository = new UserRepository();
 const authService = new AuthService(userRepository);

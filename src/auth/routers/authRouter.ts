@@ -5,7 +5,7 @@ import {
     forgotPassword,
     resetPassword,
     superAdmin,
-} from './authController';
+} from '../controllers/authController';
 
 const authRouter = express.Router();
 

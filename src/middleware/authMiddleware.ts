@@ -7,7 +7,7 @@ import {
     AUTH_TOKEN_PERMISSION,
     ADMIN,
     SUPER_ADMIN,
- } from '../auth/constants';
+ } from '../auth/utils/constants';
 
 const SECRET_KEY = String(process.env.JWT_SECRET);
 
