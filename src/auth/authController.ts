@@ -8,6 +8,7 @@ import {
 } from './authSchema';
 import AuthService from './authService';
 import UserRepository from '../users/userRepository';
+import { SUPER_ADMIN } from './constants';
 
 const userRepository = new UserRepository();
 const authService = new AuthService(userRepository);
@@ -77,6 +78,25 @@ export const resetPassword = async (
         );
 
         return res.status(StatusCodes.OK).json(forgotPassword);
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const superAdmin = async (
+    req: Request, 
+    res: Response,
+    next: NextFunction,
+) => {
+    try {
+        const schema = await signUpSchema.validateAsync({
+            ...req.body,
+            role: SUPER_ADMIN,
+        });
+
+        const superAdmin = await authService.superAdmin(schema);
+
+        return res.status(StatusCodes.OK).json(superAdmin);
     } catch (error) {
         next(error);
     }

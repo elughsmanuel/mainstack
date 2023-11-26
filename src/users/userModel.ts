@@ -6,7 +6,6 @@ import {
     LAST_NAME_REQUIRED,
     EMAIL_REQUIRED,
     USERNAME_REQUIRED,
-    ROLE_REQUIRED,
     PASSWORD_REQUIRED,
     CONFIRM_PASSWORD_REQUIRED,
     VALID_EMAIL,
@@ -52,8 +51,8 @@ const userSchema = new Schema(
         },
         role: {
             type: String,
-            required: [true, ROLE_REQUIRED],
-            lowercase: true,
+            enum: ['super-admin', 'admin', 'user'],
+            default: 'user',
         },
         password: {
             type: String,

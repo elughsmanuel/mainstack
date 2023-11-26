@@ -139,6 +139,27 @@ class AuthService {
             message: PASSWORD_CHANGED,
         };
     }
+
+    async superAdmin(data: any) {
+        const createToken = (userId: string, role: string): string => {
+            const secret = String(process.env.JWT_SECRET);
+            const expiresIn = process.env.JWT_EXPIRES_IN;
+        
+            const token = jwt.sign({ userId, role }, secret, { expiresIn}); 
+        
+            return token;
+        };
+
+        const user = await this.userRepository.createSuperAdmin(data);
+        
+        const accessToken = createToken(user._id, user.role);
+
+        return { 
+            success: true, 
+            data: user,
+            accessToken,
+        }
+    }
 }
 
 export default AuthService;

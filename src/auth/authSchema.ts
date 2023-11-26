@@ -4,7 +4,6 @@ import {
     LAST_NAME_REQUIRED,
     EMAIL_REQUIRED,
     USERNAME_REQUIRED,
-    ROLE_REQUIRED,
     PASSWORD_REQUIRED,
     VALID_EMAIL,
     VALID_PASSWORD,
@@ -16,7 +15,6 @@ import {
     EMPTY_LAST_NAME,
     EMPTY_PASSWORD,
     EMPTY_USERNAME,
-    EMPTY_ROLE,
     PASSWORD_NEW_REQUIRED,
     EMPTY_NEW_PASSWORD,
     VALID_NEW_PASSWORD,
@@ -40,10 +38,7 @@ export const signUpSchema = Joi.object({
         "any.required": USERNAME_REQUIRED,
         "string.empty": EMPTY_USERNAME,
     }),
-    role: Joi.string().trim().required().messages({
-        "any.required": ROLE_REQUIRED,
-        "string.empty": EMPTY_ROLE,
-    }),
+    role: Joi.string().trim(),
     password: Joi.string().trim().min(8).required().messages({
         "any.required": PASSWORD_REQUIRED,
         "string.empty": EMPTY_PASSWORD,

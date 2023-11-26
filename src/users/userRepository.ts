@@ -109,6 +109,12 @@ class UserRepository {
 
         return updatedUser;
     }
+
+    async createSuperAdmin(data: any): Promise<IUser> {
+        const user = await User.create(data);
+
+        return user;
+    }
 }
 
 export default UserRepository;
