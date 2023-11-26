@@ -90,3 +90,12 @@ export const resetPasswordSchema = Joi.object({
         "string.empty": EMPTY_CONFIRM_PASSWORD,
     }),
 });
+
+export const updateUserSchema = Joi.object({
+    firstName: Joi.string().trim(),
+    lastName: Joi.string().trim(),
+    email: Joi.string().trim().email().lowercase().messages({
+        "string.email": "Please provide a valid email address",
+    }),
+    username: Joi.string().trim(),
+});

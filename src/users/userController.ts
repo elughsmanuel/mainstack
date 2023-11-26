@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import UserService from './userService';
 import UserRepository from '../users/userRepository';
+import { updateUserSchema } from '../auth/authSchema';
 
 const userRepository = new UserRepository();
 const userService = new UserService(userRepository);
@@ -44,6 +45,25 @@ export const getMyProfile = async (
     try {
         const user = await userService.getMyProfile(
             String(req.userId)
+        );
+
+        return res.status(StatusCodes.OK).json(user);
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const updateMyProfile = async (
+    req: Request & {user?: any, userId?: string}, 
+    res: Response,
+    next: NextFunction,
+) => {
+    try {
+        const schema = await updateUserSchema.validateAsync(req.body);
+
+        const user = await userService.updateMyProfile(
+            String(req.userId),
+            schema,
         );
 
         return res.status(StatusCodes.OK).json(user);

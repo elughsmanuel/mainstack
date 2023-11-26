@@ -2,26 +2,33 @@ import User, { IUser } from './userModel';
 
 class UserRepository {
     async createUser(data: any): Promise<IUser> {
-        return User.create(data);
+        const user = await User.create(data);
+
+        return user;
     }
 
     async findByEmailAndPassword(email: string): Promise<IUser | null> {
-        return User.findOne({ email }).select('+password').lean<IUser>().exec();
+        const user = User.findOne({ email }).select('+password').lean<IUser>().exec();
+
+        return user;
     }
 
-    async updateUserResetToken(userId: string, token: string, expires: Date): Promise<void> {
-        await User.findByIdAndUpdate(
+    async updateUserResetToken(userId: string, token: string, expires: Date): Promise<IUser | null> {
+        const updatedUser = await User.findByIdAndUpdate(
             userId,
             {
                 resetPasswordToken: token,
                 resetPasswordExpires: expires,
             },
-            { new: true }
+            { new: true },
         );
+
+        return updatedUser;
     }
 
     async findByEmail(email: string): Promise<IUser | null> {
         const user = await User.findOne({ email });
+
         return user;
     }
 
@@ -35,24 +42,28 @@ class UserRepository {
         return user;
     }
     
-    async updateUserPassword(userId: string, hashedPassword: string): Promise<void> {
-        await User.findByIdAndUpdate(
+    async updateUserPassword(userId: string, hashedPassword: string): Promise<IUser | null> {
+        const updatedUser = await User.findByIdAndUpdate(
             userId,
             { password: hashedPassword },
-            { new: true }
+            { new: true },
         );
+
+        return updatedUser;
     }
     
-    async clearUserResetToken(userId: string): Promise<void> {
-        await User.findByIdAndUpdate(
+    async clearUserResetToken(userId: string): Promise<IUser | null> {
+        const updatedUser = await User.findByIdAndUpdate(
             userId,
             {
                 resetPasswordToken: null,
                 resetPasswordExpires: null,
             },
-            { new: true }
+            { new: true },
         );
-    }    
+
+        return updatedUser;
+    }
 
     async getAllUsers(): Promise<IUser[]> {
         const users = await User.find();
@@ -66,10 +77,14 @@ class UserRepository {
         return user;
     }
 
-    async getMyProfile(userId: string): Promise<IUser | null> {
-        const user = await User.findById(userId);
+    async updateMyProfile(userId: string, data: any): Promise<IUser | null> {
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            { $set: data },
+            { new: true },
+        );
 
-        return user;
+        return updatedUser;
     }
 }
 
