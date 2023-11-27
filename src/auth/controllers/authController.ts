@@ -5,7 +5,7 @@ import {
     loginSchema, 
     emailSchema,
     resetPasswordSchema,
-} from '../validators/authSchema';
+} from '../../validators/schema';
 import AuthService from '../services/authService';
 import UserRepository from '../../user/repositories/userRepository';
 import { SUPER_ADMIN } from '../utils/constants';

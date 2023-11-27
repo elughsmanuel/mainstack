@@ -3,14 +3,17 @@ import UserRepository from '../repositories/userRepository';
 import BadRequest from '../../errors/BadRequest';
 import UnprocessableEntity from '../../errors/UnprocessableEntity';
 import { 
-    USER_NOT_FOUND,
     PASSWORD_CHANGED,
     INCORRECT_PASSWORD,
     MATCHING_PASSWORD,
     SAME_PASSWORD,
-    YOUR_ACCOUNT_DELETED,
-    USER_DELETED,
+    SUPER_ADMIN,
 } from '../../auth/utils/constants';
+import { 
+    USER_NOT_FOUND,
+    USER_DELETED,
+    INVALID_ROLE,
+} from '../utils/constants';
 
 class UserService {
     private userRepository: UserRepository;
@@ -114,7 +117,7 @@ class UserService {
 
         return {
             status: true,
-            data: YOUR_ACCOUNT_DELETED,
+            data: USER_DELETED,
         }
     }
 
@@ -138,6 +141,10 @@ class UserService {
 
         if(!user) {
             throw new BadRequest(USER_NOT_FOUND);
+        }
+
+        if (user.role === SUPER_ADMIN) {
+            throw new BadRequest(INVALID_ROLE);
         }
 
         const updatedUserRole = await this.userRepository.updateUserRole(userId, role);
