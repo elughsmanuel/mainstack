@@ -133,6 +133,21 @@ class UserService {
         }
     }
 
+    async updateUserRole(userId: string, role: string) {
+        const user = await this.userRepository.getUserById(userId);
+
+        if(!user) {
+            throw new BadRequest(USER_NOT_FOUND);
+        }
+
+        const updatedUserRole = await this.userRepository.updateUserRole(userId, role);
+
+        return {
+            status: true,
+            data: updatedUserRole,
+        }
+    }
+
     async deleteUser(userId: string) {
         const user = await this.userRepository.getUserById(userId);
 

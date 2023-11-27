@@ -5,6 +5,7 @@ import UserRepository from '../repositories/userRepository';
 import { 
     updateUserSchema,
     updatePasswordSchema,
+    updateUserRoleSchema,
  } from '../../auth/validators/authSchema';
 
 const userRepository = new UserRepository();
@@ -123,6 +124,27 @@ export const updateUser = async (
         const schema = await updateUserSchema.validateAsync(req.body);
 
         const user = await userService.updateUser(
+            userId, 
+            schema,
+        );
+
+        return res.status(StatusCodes.OK).json(user);
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const updateUserRole = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+) => {
+    try {
+        const { userId } = req.params;
+
+        const schema = await updateUserRoleSchema.validateAsync(req.body);
+
+        const user = await userService.updateUserRole(
             userId, 
             schema,
         );

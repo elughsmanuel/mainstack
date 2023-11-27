@@ -105,9 +105,18 @@ class UserRepository {
             { $set: data },
             { new: true },
         );
-        console.log(updatedUser);
 
         return updatedUser;
+    }
+
+    async updateUserRole(userId: string, role: any): Promise<IUser | null> {
+        const updatedUserRole = await User.findByIdAndUpdate(
+            userId,
+            { $set: role },
+            { new: true },
+        );
+
+        return updatedUserRole;
     }
 
     async createSuperAdmin(data: any): Promise<IUser> {

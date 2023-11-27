@@ -4,17 +4,19 @@ import {
     LAST_NAME_REQUIRED,
     EMAIL_REQUIRED,
     USERNAME_REQUIRED,
+    ROLE_REQUIRED,
     PASSWORD_REQUIRED,
+    CONFIRM_PASSWORD_REQUIRED,
     VALID_EMAIL,
     VALID_PASSWORD,
-    CONFIRM_PASSWORD_REQUIRED,
     MATCHING_PASSWORD,
-    EMPTY_CONFIRM_PASSWORD,
-    EMPTY_EMAIL,
     EMPTY_FIRST_NAME,
     EMPTY_LAST_NAME,
-    EMPTY_PASSWORD,
+    EMPTY_EMAIL,
     EMPTY_USERNAME,
+    EMPTY_ROLE,
+    EMPTY_PASSWORD,
+    EMPTY_CONFIRM_PASSWORD,
     PASSWORD_NEW_REQUIRED,
     EMPTY_NEW_PASSWORD,
     VALID_NEW_PASSWORD,
@@ -96,6 +98,13 @@ export const updateUserSchema = Joi.object({
         "string.email": "Please provide a valid email address",
     }),
     username: Joi.string().trim(),
+});
+
+export const updateUserRoleSchema = Joi.object({
+    role: Joi.string().valid('user', 'admin').required().messages({
+        "any.required": ROLE_REQUIRED,
+        "string.empty": EMPTY_ROLE,
+    }),
 });
 
 export const updatePasswordSchema = Joi.object({

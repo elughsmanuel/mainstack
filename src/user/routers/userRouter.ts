@@ -12,6 +12,7 @@ import {
     updateMyPassword,
     deleteMe,
     updateUser,
+    updateUserRole,
     deleteUser,
 } from '../controllers/userController';
 
@@ -24,6 +25,7 @@ userRouter.patch('/update-profile/:userId', authenticate, updateMyProfile);
 userRouter.patch('/update-password/:userId', authenticate, updateMyPassword);
 userRouter.delete('/delete-me/:userId', authenticate, deleteMe);
 userRouter.patch('/update-user/:userId', authenticate, isAdmin, updateUser);
+userRouter.patch('/update-user-role/:userId', authenticate, isSuperAdmin, updateUserRole);
 userRouter.delete('/delete-user/:userId', authenticate, isSuperAdmin, deleteUser);
 
 export default userRouter;
