@@ -75,4 +75,4 @@ const startServer = async () => {
      initializeDatabaseConnection();
 };
 
-startServer();
+startServer(); 
