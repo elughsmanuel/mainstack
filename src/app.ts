@@ -15,7 +15,7 @@ const port = Number(process.env.PORT || 8000);
 const httpServer = http.createServer(app);
 
 const db = String(process.env.DATABASE_CONNECTION).replace(
-    '<PASSWORD>', String(process.env.DATABASE_PASSWORD)
+    '<password>', String(process.env.DATABASE_PASSWORD)
 );
 
 app.use(bodyParser.json());
