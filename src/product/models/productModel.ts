@@ -11,7 +11,7 @@ import {
 export interface IProduct extends Document {
     name: string;
     description: string;
-    price: string;
+    price: number;
     category: string;
     quantity: string;
     adminId: string;
@@ -28,7 +28,7 @@ const productSchema = new Schema(
             required: [true, DESCRIPTION_REQUIRED],
         },
         price: {
-            type: String,
+            type: Number,
             required: [true, PRICE_REQUIRED],
         },
         category: {
@@ -36,7 +36,7 @@ const productSchema = new Schema(
             required: [true, CATEGORY_REQUIRED],
         },
         quantity: {
-            type: String,
+            type: Number,
             required: [true, QUANTITY_REQUIRED],
         },
         adminId: {

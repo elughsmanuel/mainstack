@@ -26,6 +26,7 @@ class ProductService {
 
         return {
             status: true,
+            results: products.length,
             data: products,
         }
     }
