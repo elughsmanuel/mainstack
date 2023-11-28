@@ -35,56 +35,27 @@ export const getAllProducts = async (
     next: NextFunction,
 ) => {
     try {
-        const query: any = {};
+        const { 
+            category, 
+            minPrice, 
+            maxPrice, 
+            minQuantity, 
+            maxQuantity, 
+            sortBy, 
+            sortOrder, 
+            fields 
+        } = req.query;
 
-        if (req.query.category) {
-          query.category = req.query.category;
-        }
-
-        if (req.query.minPrice) {
-            if (query.price) {
-                query.price.$gte = req.query.minPrice;
-            } else {
-                query.price = { $gte: req.query.minPrice };
-            }
-        }
-          
-        if (req.query.maxPrice) {
-            if (query.price) {
-                query.price.$lte = req.query.maxPrice;
-            } else {
-                query.price = { $lte: req.query.maxPrice };
-            }
-        }
-
-        if (req.query.minQuantity) {
-            if (query.quantity) {
-                query.quantity.$gte = req.query.minQuantity;
-            } else {
-                query.quantity = { $gte: req.query.minQuantity };
-            }
-        }
-          
-        if (req.query.maxQuantity) {
-            if (query.quantity) {
-                query.quantity.$lte = req.query.maxQuantity;
-            } else {
-                query.quantity = { $lte: req.query.maxQuantity };
-            }
-        }
-
-        const sortOptions: any = {};
-
-        if (req.query.sortBy) {
-          const validSortFields = ['price', 'quantity'];
-          if (validSortFields.includes(req.query.sortBy as string)) {
-            sortOptions[req.query.sortBy as string] = req.query.sortOrder === 'desc' ? -1 : 1;
-          }
-        }
-
-        const selectFields = req.query.fields ? (req.query.fields as string).split(',') : undefined;    
-
-        const products = await productService.getAllProducts(query, sortOptions, selectFields);
+        const products = await productService.getAllProducts(
+            category as string,
+            parseFloat(minPrice as string) || undefined,
+            parseFloat(maxPrice as string) || undefined,
+            parseFloat(minQuantity as string) || undefined,
+            parseFloat(maxQuantity as string) || undefined,
+            sortBy as string,
+            sortOrder as string,
+            fields ? (fields as string).split(',') : undefined,
+        );
 
         return res.status(StatusCodes.OK).json(products);
     } catch (error) {

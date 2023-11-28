@@ -4,6 +4,7 @@ import {
     PRODUCT_NOT_FOUND,
     PRODUCT_DELETED
 } from '../utils/constants';
+import { productQuery } from '../utils/productQuery';
 
 class ProductService {
     private productRepository: ProductRepository;
@@ -21,7 +22,32 @@ class ProductService {
         }
     }
 
-    async getAllProducts(query: any, sortOptions: any, selectFields?: string[]) {
+    async getAllProducts(
+        category?: string,
+        minPrice?: number,
+        maxPrice?: number,
+        minQuantity?: number,
+        maxQuantity?: number,
+        sortBy?: string,
+        sortOrder?: string,
+        fields?: string[],
+    ) {
+
+        const query = productQuery.buildProductQuery(
+            category,
+            minPrice,
+            maxPrice,
+            minQuantity,
+            maxQuantity,
+        );
+
+        const sortOptions = productQuery.buildSortOptions(
+            sortBy,
+            sortOrder,
+        );
+
+        const selectFields = fields ? fields : undefined;
+        
         const products = await this.productRepository.getAllProducts(query, sortOptions, selectFields);
 
         return {
