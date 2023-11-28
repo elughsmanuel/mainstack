@@ -36,6 +36,8 @@ export const getAllProducts = async (
 ) => {
     try {
         const { 
+            page,
+            perPage,
             category, 
             minPrice, 
             maxPrice, 
@@ -43,10 +45,12 @@ export const getAllProducts = async (
             maxQuantity, 
             sortBy, 
             sortOrder, 
-            fields 
+            fields,
         } = req.query;
 
         const products = await productService.getAllProducts(
+            parseFloat(page as string) || '1',
+            parseFloat(perPage as string || '10'),
             category as string,
             parseFloat(minPrice as string) || undefined,
             parseFloat(maxPrice as string) || undefined,

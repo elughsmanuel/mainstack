@@ -10,8 +10,8 @@ class ProductRepository {
         return product;
     }
 
-    async getAllProducts(query: any, sortOptions: any, selectFields?: string[]): Promise<IProduct[]> {
-        let queryBuilder = Product.find(query).sort(sortOptions);
+    async getAllProducts(query: any, sortOptions: any, skip: any, perPage: any, selectFields?: string[]): Promise<IProduct[]> {
+        let queryBuilder = Product.find(query).sort(sortOptions).skip(skip).limit(perPage);
 
         if (selectFields) {
             const selectObject: { [key: string]: 1 } = {};
@@ -24,6 +24,13 @@ class ProductRepository {
         
         return products;
     }
+
+    async getTotalProductCount(query: any): Promise<number> {
+
+        return await Product.countDocuments(query).exec();
+    }
+
+    
 
     async getProductById(productId: string): Promise<IProduct | null> {
         const product = await Product.findById(productId);

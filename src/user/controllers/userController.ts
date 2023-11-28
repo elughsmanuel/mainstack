@@ -17,7 +17,16 @@ export const getAllUsers = async (
     next: NextFunction,
 ) => {
     try {
-        const users = await userService.getAllUsers();
+        const { 
+            page,
+            perPage,
+            role,
+        } = req.query;
+        const users = await userService.getAllUsers(
+            parseFloat(page as string) || '1',
+            parseFloat(perPage as string || '10'),
+            role as string,
+        );
 
         return res.status(StatusCodes.OK).json(users);
     } catch (error) {

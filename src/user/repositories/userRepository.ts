@@ -65,10 +65,17 @@ class UserRepository {
         return updatedUser;
     }
 
-    async getAllUsers(): Promise<IUser[]> {
-        const users = await User.find();
+    async getAllUsers(role: any, skip: any, perPage: any): Promise<IUser[]> {
+        let queryBuilder = User.find({role}).skip(skip).limit(perPage);
+
+        const users = await queryBuilder.exec();
         
         return users;
+    }
+
+    async getTotalUserCount(role: any): Promise<number> {
+        
+        return await User.countDocuments(role).exec();
     }
 
     async getUserById(userId: string): Promise<IUser | null> {

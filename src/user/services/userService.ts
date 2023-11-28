@@ -22,12 +22,25 @@ class UserService {
         this.userRepository = userRepository;
     }
 
-    async getAllUsers() {
-        const users = await this.userRepository.getAllUsers();
+    async getAllUsers(
+        page: any,
+        perPage: any,
+        role?: string,
+    ) {
+        const count = await this.userRepository.getTotalUserCount(role);
+
+        const skip = (page - 1) * perPage;
+        const currentPage = Math.ceil(page);
+        const totalPages = Math.ceil(count / perPage);
+
+        const users = await this.userRepository.getAllUsers(role, skip, perPage);
 
         return {
             status: true,
+            results: users.length,
             data: users,
+            currentPage: currentPage,
+            totalPages: totalPages,
         }
     }
 

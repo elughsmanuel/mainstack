@@ -23,6 +23,8 @@ class ProductService {
     }
 
     async getAllProducts(
+        page: any,
+        perPage: any,
         category?: string,
         minPrice?: number,
         maxPrice?: number,
@@ -47,13 +49,21 @@ class ProductService {
         );
 
         const selectFields = fields ? fields : undefined;
+
+        const count = await this.productRepository.getTotalProductCount(query);
+
+        const skip = (page - 1) * perPage;
+        const currentPage = Math.ceil(page);
+        const totalPages = Math.ceil(count / perPage);
         
-        const products = await this.productRepository.getAllProducts(query, sortOptions, selectFields);
+        const products = await this.productRepository.getAllProducts(query, sortOptions, skip, perPage, selectFields);
 
         return {
             status: true,
             results: products.length,
             data: products,
+            currentPage: currentPage,
+            totalPages: totalPages,
         }
     }
 
