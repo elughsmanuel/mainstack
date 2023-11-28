@@ -11,3 +11,6 @@ export const EMPTY_PRICE = "Category cannot be empty";
 export const EMPTY_CATEGORY = "Price cannot be empty";
 export const EMPTY_QUANTITY = "Quantity cannot be empty";
 export const EMPTY_ADMIN_ID = "Admin ID cannot be empty";
+
+export const PRODUCT_NOT_FOUND = "Product not found";
+export const PRODUCT_DELETED = "Product successfully deleted";

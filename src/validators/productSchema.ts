@@ -34,3 +34,11 @@ export const createProductSchema = Joi.object({
         "string.empty": EMPTY_QUANTITY,
     }),
 });
+
+export const updateProductSchema = Joi.object({
+    name: Joi.string().trim(),
+    description: Joi.string().trim(),
+    price: Joi.string().trim(),
+    category: Joi.string().trim(),
+    quantity: Joi.string().trim(),
+});
