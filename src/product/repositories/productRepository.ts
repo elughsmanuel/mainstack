@@ -53,6 +53,19 @@ class ProductRepository {
 
         return product;
     }
+
+    async searchProduct(query: any, skip: any, perPage: any): Promise<IProduct[]> {
+        let queryBuilder = Product.find(query).skip(skip).limit(perPage);
+
+        const products = await queryBuilder.exec();
+        
+        return products;
+    }
+
+    async searchTotalProductCount(query: any): Promise<number> {
+
+        return await Product.countDocuments(query).exec();
+    }
 }
 
 export default ProductRepository;

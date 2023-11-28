@@ -5,6 +5,7 @@ import {
     PRODUCT_DELETED
 } from '../utils/constants';
 import { productQuery } from '../utils/productQuery';
+import { searchQuery } from '../utils/productQuery';
 
 class ProductService {
     private productRepository: ProductRepository;
@@ -103,6 +104,33 @@ class ProductService {
         return {
             status: true,
             data: PRODUCT_DELETED,
+        }
+    }
+
+    async searchProduct(
+        search: string,
+        page: any,
+        perPage: any,
+    ) {
+
+        const query = searchQuery.searchProductQuery(
+            search,
+        );
+
+        const count = await this.productRepository.searchTotalProductCount(query);
+
+        const skip = (page - 1) * perPage;
+        const currentPage = Math.ceil(page);
+        const totalPages = Math.ceil(count / perPage);
+        
+        const products = await this.productRepository.searchProduct(query, skip, perPage);
+
+        return {
+            status: true,
+            results: products.length,
+            data: products,
+            currentPage: currentPage,
+            totalPages: totalPages,
         }
     }
 }

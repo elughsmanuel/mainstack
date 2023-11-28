@@ -5,6 +5,7 @@ export class productQuery {
         maxPrice?: number,
         minQuantity?: number,
         maxQuantity?: number,
+        search?: string,
     ): any {
         const query: any = {};
 
@@ -32,6 +33,13 @@ export class productQuery {
           query.quantity.$lte = maxQuantity;
         }
 
+        if (search) {
+          query.$or = [
+              { name: { $regex: search, $options: 'i' } },
+              { description: { $regex: search, $options: 'i' } },
+          ];
+      }
+
         return query;
     }
 
@@ -50,4 +58,21 @@ export class productQuery {
 
         return sortOptions;
     }
+}
+
+export class searchQuery {
+  static searchProductQuery(
+      search?: string,
+  ): any {
+      const query: any = {};
+
+      if (search) {
+        query.$or = [
+            { name: { $regex: search, $options: 'i' } },
+            { description: { $regex: search, $options: 'i' } },
+        ];
+    }
+
+      return query;
+  }
 }

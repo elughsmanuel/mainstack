@@ -121,3 +121,27 @@ export const deleteProduct = async (
         next(error);
     }
 };
+
+export const searchProduct = async (
+    req: Request, 
+    res: Response,
+    next: NextFunction,
+) => {
+    try {
+        const { 
+            search,
+            page,
+            perPage,
+        } = req.query;
+
+        const products = await productService.searchProduct(
+            search as string,
+            parseFloat(page as string) || '1',
+            parseFloat(perPage as string || '10'),
+        );
+
+        return res.status(StatusCodes.OK).json(products);
+    } catch (error) {
+        next(error);
+    }
+};
