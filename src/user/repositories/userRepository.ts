@@ -66,7 +66,13 @@ class UserRepository {
     }
 
     async getAllUsers(role: any, skip: any, perPage: any): Promise<IUser[]> {
-        let queryBuilder = User.find({role}).skip(skip).limit(perPage);
+        const query: { role?: string } = {};
+
+        if (role) {
+          query.role = role;
+        }
+
+        let queryBuilder = User.find(query).skip(skip).limit(perPage);
 
         const users = await queryBuilder.exec();
         
