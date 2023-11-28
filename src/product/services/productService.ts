@@ -21,8 +21,8 @@ class ProductService {
         }
     }
 
-    async getAllProducts() {
-        const products = await this.productRepository.getAllProducts();
+    async getAllProducts(query: any, sortOptions: any, selectFields?: string[]) {
+        const products = await this.productRepository.getAllProducts(query, sortOptions, selectFields);
 
         return {
             status: true,

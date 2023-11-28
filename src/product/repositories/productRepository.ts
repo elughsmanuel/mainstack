@@ -10,8 +10,17 @@ class ProductRepository {
         return product;
     }
 
-    async getAllProducts(): Promise<IProduct[]> {
-        const products = await Product.find();
+    async getAllProducts(query: any, sortOptions: any, selectFields?: string[]): Promise<IProduct[]> {
+        let queryBuilder = Product.find(query).sort(sortOptions);
+
+        if (selectFields) {
+            const selectObject: { [key: string]: 1 } = {};
+            selectFields.forEach(field => (selectObject[field] = 1));
+
+            queryBuilder = queryBuilder.select(selectObject);
+        }
+
+        const products = await queryBuilder.exec();
         
         return products;
     }
