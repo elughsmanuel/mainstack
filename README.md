@@ -8,8 +8,8 @@ Node.js version 16.x.x or higher
 
 ## Built With
 
-Express.js - Web Framework
-Typescript - Programming language
+Express.js - Web Framework  
+Typescript - Programming language  
 MongoDB/Mongoose - Database
 
 ## Installation
@@ -57,8 +57,8 @@ npm run start
 
 When you see...
 
-[1] [DATABASE] - Database connection has been established successfully.
-[1] - - - - - - - - - -
-[1] 🌟 🛠️  [SERVER] - Server is listening on http://${host}:${port}
+[1] [DATABASE] - Database connection has been established successfully.  
+[1] - - - - - - - - - -  
+[1] 🌟 🛠️  [SERVER] - Server is listening on http://${host}:${port}  
 
 ...server is up and running.
