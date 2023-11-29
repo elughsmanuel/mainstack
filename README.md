@@ -1,58 +1,64 @@
-# MainStack
+### MainStack
 
-Re: Backend Engineer Test.
-
-## Table of Contents
-
-- [Description](#description)
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Usage](#usage)
-- [Database](#database)
-- [API Documentation](#api-documentation)
-- [Contributing](#contributing)
-- [License](#license)
-- [Acknowledgements](#acknowledgements)
-
-## Description
-
-Provide a more detailed description of your project. Discuss its purpose, goals, and any unique selling points.
-
-## Features
-
-Highlight key features of your project. You can use bullet points for easy readability.
-
-- Feature 1
-- Feature 2
-- ...
-
-## Tech Stack
-
-List the technologies and libraries/frameworks used in your project. For example:
-- Node.js
-- Express.js
-- TypeScript
-- MongoDB
-- ...
+Re: Backend Engineer Test
 
 ## Prerequisites
 
-Specify any software or tools that need to be installed before someone can use your project.
+Node.js version 16.x.x or higher
 
-- Node.js (version x.x.x)
-- MongoDB (version x.x.x)
-- ...
+## Built With
+
+Express.js - Web Framework
+Typescript - Programming language
+MongoDB/Mongoose - Database
 
 ## Installation
 
-Guide users through the installation process. If there are multiple steps, list them here. Include both regular dependencies and development dependencies. You can also include code snippets.
+1. Clone the repository and navigate to the project directory
+
+2. Run the following command to clone:
 
 ```bash
-# Install dependencies
-npm install
+  git clone https://github.com/elughsmanuel/mainstack.git
 
-# Install development dependencies
-npm install --dev
+```
+
+3. Create a `.env` file in the root directory and set the environment variables, see `.env.example` file for an example.
+
+## Database Configuration
+
+This application uses MongoDB as its database. To configure the database, add the following environment variables to a .env file in the root directory of the project:
+
+```bash
+NODE_ENV=node_environment
+HOST=server_host
+PORT=server_port
+DATABASE_CONNECTION=database_connection_url
+DATABASE_PASSWORD=database_password
+```
+
+Replace node_environment, server_host, server_port, database_connection_url and database_password with your values.
+
+## Install app dependencies
+
+```bash
+npm install
+```
+
+It will install all modules listed as dependencies in package.json.
+
+## Running the app
+
+```bash
+npm run start
+```
+
+## Start up server
+
+When you see...
+
+[1] [DATABASE] - Database connection has been established successfully.
+[1] - - - - - - - - - -
+[1] 🌟 🛠️  [SERVER] - Server is listening on http://${host}:${port}
+
+...server is up and running.
