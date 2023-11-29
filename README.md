@@ -62,3 +62,13 @@ When you see...
 [1] 🌟 🛠️  [SERVER] - Server is listening on http://${host}:${port}  
 
 ...server is up and running.
+
+
+## API Documentation
+
+For detailed API documentation, you can refer to the [Postman Documentation.](https://documenter.getpostman.com/view/27688954/2s9YeG5rDf#intro)
+
+
+## Live URL
+
+Check out the live URL [here.](https://mainstack-production.up.railway.app/api/v1)
