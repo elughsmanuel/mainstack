@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { Response } from 'express';
 
+// Function to create a JWT token - for sign up
 export const createToken = (res: Response, userId: string, role: string): string => {
   const token = setToken(userId, role);
 
@@ -29,6 +30,7 @@ const createCookie = (res: Response, accessToken: string) => {
 };
 
 
+// Function to generate a JWT token - log in
 export const generateToken = (res: Response, userId: string, role: string): string => {
     const token = getToken(userId, role);
   

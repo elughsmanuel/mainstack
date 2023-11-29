@@ -11,6 +11,7 @@ import {
 
 const SECRET_KEY = String(process.env.JWT_SECRET);
 
+// Middleware to authenticate a user
 export const authenticate = (
     req: Request & { user?: any}, 
     res: Response, 
@@ -40,7 +41,11 @@ export const authenticate = (
             }
         }
 
+        // Attach the decoded user information
         (req as any).user = decodedUser;
+
+        // Attach the user ID separately
+        // For authenticated requests
         (req as any).userId = decodedUser.userId;
 
         next();
@@ -52,6 +57,8 @@ export const isAdmin = (
     res: Response, 
     next: NextFunction,
 ) => {
+    // Extract decoded user information
+    // To retrieve the role
     const decodedUser = (req as any).user;
 
     if (decodedUser && (decodedUser.role === ADMIN || decodedUser.role === SUPER_ADMIN)) {
@@ -69,6 +76,8 @@ export const isSuperAdmin = (
     res: Response, 
     next: NextFunction,
 ) => {
+    // Extract decoded user information
+    // To retrieve the role
     const decodedUser = (req as any).user;
 
     if (decodedUser && decodedUser.role === SUPER_ADMIN) {

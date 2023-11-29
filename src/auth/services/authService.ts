@@ -33,6 +33,7 @@ class AuthService {
     async signUp(data: any, res: Response) {
         const user = await this.userRepository.createUser(data);
         
+        // Generate an access token for the user
         const accessToken = createToken(res, user._id, user.role);
 
         return { 
@@ -55,6 +56,7 @@ class AuthService {
             throw new Unauthenticated(WRONG_CREDENTIALS);
         }
 
+        // Generate an access token for the authenticated user
         const accessToken = generateToken(res, user._id, user.role);
 
         return {
@@ -71,6 +73,7 @@ class AuthService {
             throw new BadRequest(USER_NOT_FOUND);
         }
 
+        // Generate a reset token and set its expiration time
         const generateResetToken = () => {
             const token = crypto.randomBytes(32).toString('hex');
             return token;
@@ -82,13 +85,7 @@ class AuthService {
 
         await this.userRepository.updateUserResetToken(user._id, resetToken, expirationTime);
 
-        // const hashToken = (token: string) => {
-        //     const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
-        //     return hashedToken;
-        // };
-
-        // const hashedToken = hashToken(resetToken);
-
+        // Send a reset password email to the user
         await this.emailService.sendResetPasswordEmail(user.email, resetToken);
 
         return { 
@@ -114,11 +111,13 @@ class AuthService {
             throw new BadRequest(INVALID_TOKEN);
         }
 
+        // Hash the new password and update the user's password
         const salt = await bcrypt.genSalt(Number(process.env.BCRYPT_SALT));
         const hashedPassword = await bcrypt.hash(password, salt);
 
         await this.userRepository.updateUserPassword(user._id, hashedPassword);
     
+        // Clear the user's reset token
         await this.userRepository.clearUserResetToken(user._id);
 
         return { 
@@ -130,6 +129,7 @@ class AuthService {
     async superAdmin(data: any, res: Response) {
         const user = await this.userRepository.createSuperAdmin(data);
         
+        // Generate an access token for the super admin
         const accessToken = createToken(res, user._id, user.role);
 
         return { 

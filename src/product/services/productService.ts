@@ -36,6 +36,7 @@ class ProductService {
         fields?: string[],
     ) {
 
+        // Build the query for filtering products
         const query = productQuery.buildProductQuery(
             category,
             minPrice,
@@ -44,6 +45,7 @@ class ProductService {
             maxQuantity,
         );
 
+        // Build options for sorting products
         const sortOptions = productQuery.buildSortOptions(
             sortBy,
             sortOrder,
@@ -53,6 +55,7 @@ class ProductService {
 
         const count = await this.productRepository.getTotalProductCount(query);
 
+        // Calculate pagination values
         const skip = (page - 1) * perPage;
         const currentPage = Math.ceil(page);
         const totalPages = Math.ceil(count / perPage);
@@ -113,12 +116,14 @@ class ProductService {
         perPage: any,
     ) {
 
+        // Build the search query
         const query = searchQuery.searchProductQuery(
             search,
         );
 
         const count = await this.productRepository.searchTotalProductCount(query);
 
+        // Calculate pagination values
         const skip = (page - 1) * perPage;
         const currentPage = Math.ceil(page);
         const totalPages = Math.ceil(count / perPage);

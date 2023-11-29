@@ -29,6 +29,7 @@ class UserService {
     ) {
         const count = await this.userRepository.getTotalUserCount(role);
 
+        // Calculate pagination values
         const skip = (page - 1) * perPage;
         const currentPage = Math.ceil(page);
         const totalPages = Math.ceil(count / perPage);
@@ -108,6 +109,7 @@ class UserService {
             throw new UnprocessableEntity(SAME_PASSWORD);
         }
 
+        // Generate a hash for the new password and update the user's password
         const salt = await bcrypt.genSalt(Number(process.env.BCRYPT_SALT));
         const hashedPassword = await bcrypt.hash(newPassword, salt);
 
