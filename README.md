@@ -1,7 +1,5 @@
 ### MainStack
 
-Re: Backend Engineer Test
-
 ## Prerequisites
 
 Node.js version 16.x.x or higher
