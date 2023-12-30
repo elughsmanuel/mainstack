@@ -1,14 +1,32 @@
 ### MainStack
 
-## Prerequisites
+## Overview
 
-Node.js version 16.x.x or higher
+This project is the backend server for an eCommerce platform, providing essential functionalities for users to interact with products and perform common operations.
+
+## Features
+
+- **User Authentication:** Secure user authentication for a personalized shopping experience.
+- **Product Management:** Browse, search, and retrieve detailed information about available products.
+- **Category and Tag Filtering:** Efficiently filter products based on categories and tags.
+
+## API Documentation
+
+For detailed API documentation, you can refer to the [Postman Documentation.](https://documenter.getpostman.com/view/27688954/2s9YeG5rDf#intro)
+
+## Live URL
+
+Check out the live URL [here.](https://mainstack-production.up.railway.app/api/v1)
 
 ## Built With
 
 Express.js - Web Framework  
 Typescript - Programming language  
 MongoDB/Mongoose - Database
+
+## Prerequisites
+
+Node.js version 16.x.x or higher
 
 ## Installation
 
@@ -60,13 +78,3 @@ When you see...
 [1] 🌟 🛠️  [SERVER] - Server is listening on http://${host}:${port}  
 
 ...server is up and running.
-
-
-## API Documentation
-
-For detailed API documentation, you can refer to the [Postman Documentation.](https://documenter.getpostman.com/view/27688954/2s9YeG5rDf#intro)
-
-
-## Live URL
-
-Check out the live URL [here.](https://mainstack-production.up.railway.app/api/v1)
