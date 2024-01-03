@@ -6,7 +6,7 @@ export interface ICart extends Document {
     userId: string;
 }
 
-const cartSchema = new Schema(
+const cartItemSchema = new Schema(
     {
         productId: {
             type: String,
@@ -16,14 +16,20 @@ const cartSchema = new Schema(
             type: Number,
             required: [true, 'QUANTITY REQUIRED'],
         },
+    },
+);
+
+const cartSchema = new Schema(
+    {
         userId: {
             type: String,
             required: [true, 'USER ID REQUIRED'],
         },
+        cartItems: [cartItemSchema],
     },
     {
         timestamps: true,
-    }
+    },
 );
 
 const Cart = mongoose.model<ICart>('Cart', cartSchema);

@@ -4,7 +4,7 @@ class CartRepository {
     async createCart(userId: string, data: any): Promise<ICart> {
         const cart = await Cart.create({
             userId: userId,
-            ...data,
+            cartItems: data.cartItems,
         });
 
         return cart;
